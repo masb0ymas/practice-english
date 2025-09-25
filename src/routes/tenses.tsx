@@ -1,0 +1,1118 @@
+import { createFileRoute } from "@tanstack/react-router"
+import { Layout } from "../components/Layout"
+import { useState } from "react"
+
+export const Route = createFileRoute("/tenses")({
+  component: TensesPage,
+})
+
+interface TenseExample {
+  tense: string
+  formula: {
+    positive: string
+    negative: string
+    interrogative: string
+  }
+  examples: {
+    positive: {
+      I: string
+      you: string
+      we: string
+      they: string
+      she: string
+      he: string
+      it: string
+    }
+    negative: {
+      I: string
+      you: string
+      we: string
+      they: string
+      she: string
+      he: string
+      it: string
+    }
+    interrogative: {
+      I: string
+      you: string
+      we: string
+      they: string
+      she: string
+      he: string
+      it: string
+    }
+  }
+  usage: string
+  timeGroup: "Present" | "Past" | "Future"
+}
+
+interface Exercise {
+  id: number
+  question: string
+  options: string[]
+  correct: number
+  explanation: string
+}
+
+function TensesPage() {
+  const [selectedTimeGroup, setSelectedTimeGroup] = useState<string | null>(null)
+  const [currentExercise, setCurrentExercise] = useState(0)
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
+  const [showResult, setShowResult] = useState(false)
+  const [score, setScore] = useState(0)
+
+  const tenses: TenseExample[] = [
+    // PRESENT TENSES
+    {
+      tense: "Simple Present",
+      formula: {
+        positive: "S + V1 (s/es for 3rd person singular)",
+        negative: "S + do/does + not + V1",
+        interrogative: "Do/Does + S + V1?"
+      },
+      examples: {
+        positive: {
+          I: "I study English every day.",
+          you: "You study English every day.",
+          we: "We study English every day.",
+          they: "They study English every day.",
+          she: "She studies English every day.",
+          he: "He studies English every day.",
+          it: "It works perfectly.",
+        },
+        negative: {
+          I: "I do not study English every day.",
+          you: "You do not study English every day.",
+          we: "We do not study English every day.",
+          they: "They do not study English every day.",
+          she: "She does not study English every day.",
+          he: "He does not study English every day.",
+          it: "It does not work properly.",
+        },
+        interrogative: {
+          I: "Do I study English every day?",
+          you: "Do you study English every day?",
+          we: "Do we study English every day?",
+          they: "Do they study English every day?",
+          she: "Does she study English every day?",
+          he: "Does he study English every day?",
+          it: "Does it work properly?",
+        },
+      },
+      usage: "Untuk menyatakan kebiasaan, fakta umum, atau kebenaran yang berlaku selamanya.",
+      timeGroup: "Present",
+    },
+    {
+      tense: "Present Continuous",
+      formula: {
+        positive: "S + am/is/are + V-ing",
+        negative: "S + am/is/are + not + V-ing",
+        interrogative: "Am/Is/Are + S + V-ing?"
+      },
+      examples: {
+        positive: {
+          I: "I am studying English now.",
+          you: "You are studying English now.",
+          we: "We are studying English now.",
+          they: "They are studying English now.",
+          she: "She is studying English now.",
+          he: "He is studying English now.",
+          it: "It is working now.",
+        },
+        negative: {
+          I: "I am not studying English now.",
+          you: "You are not studying English now.",
+          we: "We are not studying English now.",
+          they: "They are not studying English now.",
+          she: "She is not studying English now.",
+          he: "He is not studying English now.",
+          it: "It is not working now.",
+        },
+        interrogative: {
+          I: "Am I studying English now?",
+          you: "Are you studying English now?",
+          we: "Are we studying English now?",
+          they: "Are they studying English now?",
+          she: "Is she studying English now?",
+          he: "Is he studying English now?",
+          it: "Is it working now?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang sedang berlangsung saat ini.",
+      timeGroup: "Present",
+    },
+    {
+      tense: "Present Perfect",
+      formula: {
+        positive: "S + have/has + V3",
+        negative: "S + have/has + not + V3",
+        interrogative: "Have/Has + S + V3?"
+      },
+      examples: {
+        positive: {
+          I: "I have studied English for 3 years.",
+          you: "You have studied English for 3 years.",
+          we: "We have studied English for 3 years.",
+          they: "They have studied English for 3 years.",
+          she: "She has studied English for 3 years.",
+          he: "He has studied English for 3 years.",
+          it: "It has worked for 3 years.",
+        },
+        negative: {
+          I: "I have not studied English for 3 years.",
+          you: "You have not studied English for 3 years.",
+          we: "We have not studied English for 3 years.",
+          they: "They have not studied English for 3 years.",
+          she: "She has not studied English for 3 years.",
+          he: "He has not studied English for 3 years.",
+          it: "It has not worked for 3 years.",
+        },
+        interrogative: {
+          I: "Have I studied English for 3 years?",
+          you: "Have you studied English for 3 years?",
+          we: "Have we studied English for 3 years?",
+          they: "Have they studied English for 3 years?",
+          she: "Has she studied English for 3 years?",
+          he: "Has he studied English for 3 years?",
+          it: "Has it worked for 3 years?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang dimulai di masa lalu dan masih berlanjut atau baru saja selesai.",
+      timeGroup: "Present",
+    },
+    {
+      tense: "Present Perfect Continuous",
+      formula: {
+        positive: "S + have/has + been + V-ing",
+        negative: "S + have/has + not + been + V-ing",
+        interrogative: "Have/Has + S + been + V-ing?"
+      },
+      examples: {
+        positive: {
+          I: "I have been studying English for 3 hours.",
+          you: "You have been studying English for 3 hours.",
+          we: "We have been studying English for 3 hours.",
+          they: "They have been studying English for 3 hours.",
+          she: "She has been studying English for 3 hours.",
+          he: "He has been studying English for 3 hours.",
+          it: "It has been working for 3 hours.",
+        },
+        negative: {
+          I: "I have not been studying English for 3 hours.",
+          you: "You have not been studying English for 3 hours.",
+          we: "We have not been studying English for 3 hours.",
+          they: "They have not been studying English for 3 hours.",
+          she: "She has not been studying English for 3 hours.",
+          he: "He has not been studying English for 3 hours.",
+          it: "It has not been working for 3 hours.",
+        },
+        interrogative: {
+          I: "Have I been studying English for 3 hours?",
+          you: "Have you been studying English for 3 hours?",
+          we: "Have we been studying English for 3 hours?",
+          they: "Have they been studying English for 3 hours?",
+          she: "Has she been studying English for 3 hours?",
+          he: "Has he been studying English for 3 hours?",
+          it: "Has it been working for 3 hours?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang dimulai di masa lalu, berlanjut sampai sekarang, dan mungkin masih berlanjut.",
+      timeGroup: "Present",
+    },
+
+    // PAST TENSES
+    {
+      tense: "Simple Past",
+      formula: {
+        positive: "S + V2",
+        negative: "S + did + not + V1",
+        interrogative: "Did + S + V1?"
+      },
+      examples: {
+        positive: {
+          I: "I studied English yesterday.",
+          you: "You studied English yesterday.",
+          we: "We studied English yesterday.",
+          they: "They studied English yesterday.",
+          she: "She studied English yesterday.",
+          he: "He studied English yesterday.",
+          it: "It worked yesterday.",
+        },
+        negative: {
+          I: "I did not study English yesterday.",
+          you: "You did not study English yesterday.",
+          we: "We did not study English yesterday.",
+          they: "They did not study English yesterday.",
+          she: "She did not study English yesterday.",
+          he: "He did not study English yesterday.",
+          it: "It did not work yesterday.",
+        },
+        interrogative: {
+          I: "Did I study English yesterday?",
+          you: "Did you study English yesterday?",
+          we: "Did we study English yesterday?",
+          they: "Did they study English yesterday?",
+          she: "Did she study English yesterday?",
+          he: "Did he study English yesterday?",
+          it: "Did it work yesterday?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang terjadi dan selesai di masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Continuous",
+      formula: {
+        positive: "S + was/were + V-ing",
+        negative: "S + was/were + not + V-ing",
+        interrogative: "Was/Were + S + V-ing?"
+      },
+      examples: {
+        positive: {
+          I: "I was studying English when you called.",
+          you: "You were studying English when I called.",
+          we: "We were studying English when you called.",
+          they: "They were studying English when I called.",
+          she: "She was studying English when I called.",
+          he: "He was studying English when I called.",
+          it: "It was working when I checked.",
+        },
+        negative: {
+          I: "I was not studying English when you called.",
+          you: "You were not studying English when I called.",
+          we: "We were not studying English when you called.",
+          they: "They were not studying English when I called.",
+          she: "She was not studying English when I called.",
+          he: "He was not studying English when I called.",
+          it: "It was not working when I checked.",
+        },
+        interrogative: {
+          I: "Was I studying English when you called?",
+          you: "Were you studying English when I called?",
+          we: "Were we studying English when you called?",
+          they: "Were they studying English when I called?",
+          she: "Was she studying English when I called?",
+          he: "Was he studying English when I called?",
+          it: "Was it working when I checked?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang sedang berlangsung di masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Perfect",
+      formula: {
+        positive: "S + had + V3",
+        negative: "S + had + not + V3",
+        interrogative: "Had + S + V3?"
+      },
+      examples: {
+        positive: {
+          I: "I had studied English before I moved to America.",
+          you: "You had studied English before you moved to America.",
+          we: "We had studied English before we moved to America.",
+          they: "They had studied English before they moved to America.",
+          she: "She had studied English before she moved to America.",
+          he: "He had studied English before he moved to America.",
+          it: "It had worked before we replaced it.",
+        },
+        negative: {
+          I: "I had not studied English before I moved to America.",
+          you: "You had not studied English before you moved to America.",
+          we: "We had not studied English before we moved to America.",
+          they: "They had not studied English before they moved to America.",
+          she: "She had not studied English before she moved to America.",
+          he: "He had not studied English before he moved to America.",
+          it: "It had not worked before we replaced it.",
+        },
+        interrogative: {
+          I: "Had I studied English before I moved to America?",
+          you: "Had you studied English before you moved to America?",
+          we: "Had we studied English before we moved to America?",
+          they: "Had they studied English before they moved to America?",
+          she: "Had she studied English before she moved to America?",
+          he: "Had he studied English before he moved to America?",
+          it: "Had it worked before we replaced it?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang selesai sebelum aktivitas lain di masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Perfect Continuous",
+      formula: {
+        positive: "S + had + been + V-ing",
+        negative: "S + had + not + been + V-ing",
+        interrogative: "Had + S + been + V-ing?",
+      },
+      examples: {
+        positive: {
+          I: "I had been studying English for 2 years before I got the scholarship.",
+          you: "You had been studying English for 2 years before you got the scholarship.",
+          we: "We had been studying English for 2 years before we got the scholarship.",
+          they: "They had been studying English for 2 years before they got the scholarship.",
+          she: "She had been studying English for 2 years before she got the scholarship.",
+          he: "He had been studying English for 2 years before he got the scholarship.",
+          it: "It had been working for 2 years before it broke down.",
+        },
+        negative: {
+          I: "I had not been studying English for 2 years before I got the scholarship.",
+          you: "You had not been studying English for 2 years before you got the scholarship.",
+          we: "We had not been studying English for 2 years before we got the scholarship.",
+          they: "They had not been studying English for 2 years before they got the scholarship.",
+          she: "She had not been studying English for 2 years before she got the scholarship.",
+          he: "He had not been studying English for 2 years before he got the scholarship.",
+          it: "It had not been working for 2 years before it broke down.",
+        },
+        interrogative: {
+          I: "Had I studied English for 2 years before I got the scholarship?",
+          you: "Had you studied English for 2 years before you got the scholarship?",
+          we: "Had we studied English for 2 years before we got the scholarship?",
+          they: "Had they studied English for 2 years before they got the scholarship?",
+          she: "Had she studied English for 2 years before she got the scholarship?",
+          he: "Had he studied English for 2 years before he got the scholarship?",
+          it: "Had it worked for 2 years before it broke down?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang berlangsung terus menerus di masa lalu sebelum aktivitas lain terjadi.",
+      timeGroup: "Past",
+    },
+
+    // FUTURE TENSES
+    {
+      tense: "Simple Future",
+      formula: {
+        positive: "S + will + V1",
+        negative: "S + will + not + V1",
+        interrogative: "Will + S + V1?",
+      },
+      examples: {
+        positive: {
+          I: "I will study English tomorrow.",
+          you: "You will study English tomorrow.",
+          we: "We will study English tomorrow.",
+          they: "They will study English tomorrow.",
+          she: "She will study English tomorrow.",
+          he: "He will study English tomorrow.",
+          it: "It will work tomorrow.",
+        },
+        negative: {
+          I: "I will not study English tomorrow.",
+          you: "You will not study English tomorrow.",
+          we: "We will not study English tomorrow.",
+          they: "They will not study English tomorrow.",
+          she: "She will not study English tomorrow.",
+          he: "He will not study English tomorrow.",
+          it: "It will not work tomorrow.",
+        },
+        interrogative: {
+          I: "Will I study English tomorrow?",
+          you: "Will you study English tomorrow?",
+          we: "Will we study English tomorrow?",
+          they: "Will they study English tomorrow?",
+          she: "Will she study English tomorrow?",
+          he: "Will he study English tomorrow?",
+          it: "Will it work tomorrow?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang akan terjadi di masa depan.",
+      timeGroup: "Future",
+    },
+    {
+      tense: "Future Continuous",
+      formula: {
+        positive: "S + will be + V-ing",
+        negative: "S + will + not + be + V-ing",
+        interrogative: "Will + S + be + V-ing?",
+      },
+      examples: {
+        positive: {
+          I: "I will be studying English at 8 PM tonight.",
+          you: "You will be studying English at 8 PM tonight.",
+          we: "We will be studying English at 8 PM tonight.",
+          they: "They will be studying English at 8 PM tonight.",
+          she: "She will be studying English at 8 PM tonight.",
+          he: "He will be studying English at 8 PM tonight.",
+          it: "It will be working at 8 PM tonight.",
+        },
+        negative: {
+          I: "I will not be studying English at 8 PM tonight.",
+          you: "You will not be studying English at 8 PM tonight.",
+          we: "We will not be studying English at 8 PM tonight.",
+          they: "They will not be studying English at 8 PM tonight.",
+          she: "She will not be studying English at 8 PM tonight.",
+          he: "He will not be studying English at 8 PM tonight.",
+          it: "It will not be working at 8 PM tonight.",
+        },
+        interrogative: {
+          I: "Will I be studying English at 8 PM tonight?",
+          you: "Will you be studying English at 8 PM tonight?",
+          we: "Will we be studying English at 8 PM tonight?",
+          they: "Will they be studying English at 8 PM tonight?",
+          she: "Will she be studying English at 8 PM tonight?",
+          he: "Will he be studying English at 8 PM tonight?",
+          it: "Will it be working at 8 PM tonight?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang akan sedang berlangsung di masa depan.",
+      timeGroup: "Future",
+    },
+    {
+      tense: "Future Perfect",
+      formula: {
+        positive: "S + will have + V3",
+        negative: "S + will + not + have + V3",
+        interrogative: "Will + S + have + V3?",
+      },
+      examples: {
+        positive: {
+          I: "I will have studied English for 5 years by next month.",
+          you: "You will have studied English for 5 years by next month.",
+          we: "We will have studied English for 5 years by next month.",
+          they: "They will have studied English for 5 years by next month.",
+          she: "She will have studied English for 5 years by next month.",
+          he: "He will have studied English for 5 years by next month.",
+          it: "It will have worked for 5 years by next month.",
+        },
+        negative: {
+          I: "I will not have studied English for 5 years by next month.",
+          you: "You will not have studied English for 5 years by next month.",
+          we: "We will not have studied English for 5 years by next month.",
+          they: "They will not have studied English for 5 years by next month.",
+          she: "She will not have studied English for 5 years by next month.",
+          he: "He will not have studied English for 5 years by next month.",
+          it: "It will not have worked for 5 years by next month.",
+        },
+        interrogative: {
+          I: "Will I have studied English for 5 years by next month?",
+          you: "Will you have studied English for 5 years by next month?",
+          we: "Will we have studied English for 5 years by next month?",
+          they: "Will they have studied English for 5 years by next month?",
+          she: "Will she have studied English for 5 years by next month?",
+          he: "Will he have studied English for 5 years by next month?",
+          it: "Will it have worked for 5 years by next month?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang akan selesai sebelum waktu tertentu di masa depan.",
+      timeGroup: "Future",
+    },
+    {
+      tense: "Future Perfect Continuous",
+      formula: {
+        positive: "S + will have been + V-ing",
+        negative: "S + will + not + have been + V-ing",
+        interrogative: "Will + S + have been + V-ing?",
+      },
+      examples: {
+        positive: {
+          I: "I will have been studying English for 5 years by the time I graduate.",
+          you: "You will have been studying English for 5 years by the time you graduate.",
+          we: "We will have been studying English for 5 years by the time we graduate.",
+          they: "They will have been studying English for 5 years by the time they graduate.",
+          she: "She will have been studying English for 5 years by the time she graduates.",
+          he: "He will have been studying English for 5 years by the time he graduates.",
+          it: "It will have been working for 5 years by the time we replace it.",
+        },
+        negative: {
+          I: "I will not have been studying English for 5 years by the time I graduate.",
+          you: "You will not have been studying English for 5 years by the time you graduate.",
+          we: "We will not have been studying English for 5 years by the time we graduate.",
+          they: "They will not have been studying English for 5 years by the time they graduate.",
+          she: "She will not have been studying English for 5 years by the time she graduates.",
+          he: "He will not have been studying English for 5 years by the time he graduates.",
+          it: "It will not have been working for 5 years by the time we replace it.",
+        },
+        interrogative: {
+          I: "Will I have been studying English for 5 years by the time I graduate?",
+          you: "Will you have been studying English for 5 years by the time you graduate?",
+          we: "Will we have been studying English for 5 years by the time we graduate?",
+          they: "Will they have been studying English for 5 years by the time they graduate?",
+          she: "Will she have been studying English for 5 years by the time she graduates?",
+          he: "Will he have been studying English for 5 years by the time he graduates?",
+          it: "Will it have been working for 5 years by the time we replace it?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang akan berlangsung terus sampai waktu tertentu di masa depan.",
+      timeGroup: "Future",
+    },
+
+    // PAST FUTURE TENSES
+    {
+      tense: "Simple Past Future",
+      formula: {
+        positive: "S + would + V1",
+        negative: "S + would + not + V1",
+        interrogative: "Would + S + V1?",
+      },
+      examples: {
+        positive: {
+          I: "I said I would study English the next day.",
+          you: "You said you would study English the next day.",
+          we: "We said we would study English the next day.",
+          they: "They said they would study English the next day.",
+          she: "She said she would study English the next day.",
+          he: "He said he would study English the next day.",
+          it: "It was predicted it would work the next day.",
+        },
+        negative: {
+          I: "I said I would not study English the next day.",
+          you: "You said you would not study English the next day.",
+          we: "We said we would not study English the next day.",
+          they: "They said they would not study English the next day.",
+          she: "She said she would not study English the next day.",
+          he: "He said he would not study English the next day.",
+          it: "It was predicted it would not work the next day.",
+        },
+        interrogative: {
+          I: "Would I study English the next day?",
+          you: "Would you study English the next day?",
+          we: "Would we study English the next day?",
+          they: "Would they study English the next day?",
+          she: "Would she study English the next day?",
+          he: "Would he study English the next day?",
+          it: "Would it work the next day?",
+        },
+      },
+      usage: "Untuk menyatakan aktivitas yang akan terjadi di masa depan dilihat dari masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Future Continuous",
+      formula: {
+        positive: "S + would be + V-ing",
+        negative: "S + would + not + be + V-ing",
+        interrogative: "Would + S + be + V-ing?",
+      },
+      examples: {
+        positive: {
+          I: "I said I would be studying English at 8 PM.",
+          you: "You said you would be studying English at 8 PM.",
+          we: "We said we would be studying English at 8 PM.",
+          they: "They said they would be studying English at 8 PM.",
+          she: "She said she would be studying English at 8 PM.",
+          he: "He said he would be studying English at 8 PM.",
+          it: "It was expected it would be working at 8 PM.",
+        },
+        negative: {
+          I: "I said I would not be studying English at 8 PM.",
+          you: "You said you would not be studying English at 8 PM.",
+          we: "We said we would not be studying English at 8 PM.",
+          they: "They said they would not be studying English at 8 PM.",
+          she: "She said she would not be studying English at 8 PM.",
+          he: "He said he would not be studying English at 8 PM.",
+          it: "It was expected it would not be working at 8 PM.",
+        },
+        interrogative: {
+          I: "Would I be studying English at 8 PM?",
+          you: "Would you be studying English at 8 PM?",
+          we: "Would we be studying English at 8 PM?",
+          they: "Would they be studying English at 8 PM?",
+          she: "Would she be studying English at 8 PM?",
+          he: "Would he be studying English at 8 PM?",
+          it: "Would it be working at 8 PM?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang akan sedang berlangsung di masa depan dilihat dari masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Future Perfect",
+      formula: {
+        positive: "S + would have + V3",
+        negative: "S + would + not + have + V3",
+        interrogative: "Would + S + have + V3?",
+      },
+      examples: {
+        positive: {
+          I: "I said I would have studied English by the time you arrived.",
+          you: "You said you would have studied English by the time I arrived.",
+          we: "We said we would have studied English by the time you arrived.",
+          they: "They said they would have studied English by the time I arrived.",
+          she: "She said she would have studied English by the time I arrived.",
+          he: "He said he would have studied English by the time I arrived.",
+          it: "It was expected it would have worked by the time I arrived.",
+        },
+        negative: {
+          I: "I said I would not have studied English by the time you arrived.",
+          you: "You said you would not have studied English by the time I arrived.",
+          we: "We said we would not have studied English by the time you arrived.",
+          they: "They said they would not have studied English by the time I arrived.",
+          she: "She said she would not have studied English by the time I arrived.",
+          he: "He said he would not have studied English by the time I arrived.",
+          it: "It was expected it would not have worked by the time I arrived.",
+        },
+        interrogative: {
+          I: "Would I have studied English by the time you arrived?",
+          you: "Would you have studied English by the time I arrived?",
+          we: "Would we have studied English by the time you arrived?",
+          they: "Would they have studied English by the time I arrived?",
+          she: "Would she have studied English by the time I arrived?",
+          he: "Would he have studied English by the time I arrived?",
+          it: "Would it have worked by the time I arrived?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang akan selesai sebelum waktu tertentu di masa depan dilihat dari masa lalu.",
+      timeGroup: "Past",
+    },
+    {
+      tense: "Past Future Perfect Continuous",
+      formula: {
+        positive: "S + would have been + V-ing",
+        negative: "S + would + not + have been + V-ing",
+        interrogative: "Would + S + have been + V-ing?",
+      },
+      examples: {
+        positive: {
+          I: "I said I would have been studying English for 3 hours by 9 PM.",
+          you: "You said you would have been studying English for 3 hours by 9 PM.",
+          we: "We said we would have been studying English for 3 hours by 9 PM.",
+          they: "They said they would have been studying English for 3 hours by 9 PM.",
+          she: "She said she would have been studying English for 3 hours by 9 PM.",
+          he: "He said he would have been studying English for 3 hours by 9 PM.",
+          it: "It was expected it would have been working for 3 hours by 9 PM.",
+        },
+        negative: {
+          I: "I said I would not have been studying English for 3 hours by 9 PM.",
+          you: "You said you would not have been studying English for 3 hours by 9 PM.",
+          we: "We said we would not have been studying English for 3 hours by 9 PM.",
+          they: "They said they would not have been studying English for 3 hours by 9 PM.",
+          she: "She said she would not have been studying English for 3 hours by 9 PM.",
+          he: "He said he would not have been studying English for 3 hours by 9 PM.",
+          it: "It was expected it would not have been working for 3 hours by 9 PM.",
+        },
+        interrogative: {
+          I: "Would I have been studying English for 3 hours by 9 PM?",
+          you: "Would you have been studying English for 3 hours by 9 PM?",
+          we: "Would we have been studying English for 3 hours by 9 PM?",
+          they: "Would they have been studying English for 3 hours by 9 PM?",
+          she: "Would she have been studying English for 3 hours by 9 PM?",
+          he: "Would he have been studying English for 3 hours by 9 PM?",
+          it: "Would it have been working for 3 hours by 9 PM?",
+        },
+      },
+      usage:
+        "Untuk menyatakan aktivitas yang akan berlangsung terus sampai waktu tertentu di masa depan dilihat dari masa lalu.",
+      timeGroup: "Past",
+    },
+  ]
+
+  const exercises: Exercise[] = [
+    {
+      id: 1,
+      question: "She _____ to school every day.",
+      options: ["go", "goes", "going", "gone"],
+      correct: 1,
+      explanation:
+        "Simple Present tense untuk kebiasaan menggunakan 'goes' karena subjek 'she' (orang ketiga tunggal).",
+    },
+    {
+      id: 2,
+      question: "They _____ football right now.",
+      options: ["play", "plays", "are playing", "played"],
+      correct: 2,
+      explanation:
+        "Present Continuous tense untuk aktivitas yang sedang berlangsung saat ini menggunakan 'are playing'.",
+    },
+    {
+      id: 3,
+      question: "I _____ this book already.",
+      options: ["read", "reads", "have read", "am reading"],
+      correct: 2,
+      explanation:
+        "Present Perfect tense dengan 'already' menggunakan 'have read' untuk menyatakan aktivitas yang baru selesai.",
+    },
+    {
+      id: 4,
+      question: "She _____ English for 3 hours when I arrived.",
+      options: ["studies", "was studying", "had been studying", "will study"],
+      correct: 2,
+      explanation:
+        "Past Perfect Continuous tense untuk aktivitas yang berlangsung terus di masa lalu sebelum aktivitas lain terjadi.",
+    },
+    {
+      id: 5,
+      question: "He _____ his homework yesterday.",
+      options: ["finish", "finished", "finishes", "finishing"],
+      correct: 1,
+      explanation:
+        "Simple Past tense untuk aktivitas yang selesai di masa lalu menggunakan 'finished'.",
+    },
+    {
+      id: 6,
+      question: "We _____ dinner when the phone rang.",
+      options: ["have", "had", "were having", "are having"],
+      correct: 2,
+      explanation:
+        "Past Continuous tense untuk aktivitas yang sedang berlangsung di masa lalu menggunakan 'were having'.",
+    },
+    {
+      id: 7,
+      question: "By next year, I _____ English for 5 years.",
+      options: ["will study", "will be studying", "will have studied", "will have been studying"],
+      correct: 3,
+      explanation:
+        "Future Perfect Continuous tense untuk aktivitas yang akan berlangsung terus sampai waktu tertentu di masa depan.",
+    },
+    {
+      id: 8,
+      question: "She said she _____ the project by Friday.",
+      options: ["will finish", "would finish", "would have finished", "will have finished"],
+      correct: 2,
+      explanation:
+        "Past Future Perfect tense untuk menyatakan aktivitas yang akan selesai sebelum waktu tertentu dilihat dari masa lalu.",
+    },
+    {
+      id: 9,
+      question: "At 8 PM tonight, I _____ my presentation.",
+      options: ["prepare", "will prepare", "will be preparing", "will have prepared"],
+      correct: 2,
+      explanation:
+        "Future Continuous tense untuk aktivitas yang akan sedang berlangsung di waktu tertentu di masa depan.",
+    },
+    {
+      id: 10,
+      question: "They _____ the movie before we arrived.",
+      options: ["watched", "were watching", "had watched", "have watched"],
+      correct: 2,
+      explanation:
+        "Past Perfect tense untuk aktivitas yang selesai sebelum aktivitas lain di masa lalu.",
+    },
+  ]
+
+  const handleAnswerSelect = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex)
+  }
+
+  const handleSubmitAnswer = () => {
+    if (selectedAnswer === null) return
+
+    setShowResult(true)
+    if (selectedAnswer === exercises[currentExercise].correct) {
+      setScore(score + 1)
+    }
+  }
+
+  const handleNextQuestion = () => {
+    if (currentExercise < exercises.length - 1) {
+      setCurrentExercise(currentExercise + 1)
+      setSelectedAnswer(null)
+      setShowResult(false)
+    }
+  }
+
+  const resetQuiz = () => {
+    setCurrentExercise(0)
+    setSelectedAnswer(null)
+    setShowResult(false)
+    setScore(0)
+  }
+
+  const timeGroups = ["Present", "Past", "Future"]
+  const timeGroupColors = {
+    Present: "bg-green-100 text-green-800 border-green-500",
+    Past: "bg-blue-100 text-blue-800 border-blue-500",
+    Future: "bg-purple-100 text-purple-800 border-purple-500",
+  }
+
+  return (
+    <Layout title="Tenses - Bentuk Waktu dalam Bahasa Inggris">
+      <div className="max-w-6xl mx-auto">
+        {/* Time Group Filter */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button
+              onClick={() => setSelectedTimeGroup(null)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                selectedTimeGroup === null
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Semua Tenses
+            </button>
+            {timeGroups.map((group) => (
+              <button
+                key={group}
+                onClick={() => setSelectedTimeGroup(group)}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  selectedTimeGroup === group
+                    ? "bg-gray-800 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {group} Tenses
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tense Reference Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            {selectedTimeGroup ? `${selectedTimeGroup} Tenses` : "Referensi Semua Tenses"}
+          </h2>
+
+          {/* Grouped Tenses Display */}
+          {timeGroups.map((timeGroup) => {
+            const filteredTenses = tenses.filter(
+              (tense) =>
+                tense.timeGroup === timeGroup &&
+                (!selectedTimeGroup || selectedTimeGroup === timeGroup)
+            )
+
+            if (filteredTenses.length === 0) return null
+
+            return (
+              <div key={timeGroup} className="mb-8">
+                <h3
+                  className={`text-xl font-bold mb-4 pb-2 border-b-2 ${
+                    timeGroup === "Present"
+                      ? "text-green-600 border-green-200"
+                      : timeGroup === "Past"
+                        ? "text-blue-600 border-blue-200"
+                        : "text-purple-600 border-purple-200"
+                  }`}
+                >
+                  {timeGroup} Tenses ({filteredTenses.length})
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredTenses.map((tense, index) => (
+                    <div
+                      key={index}
+                      className={`bg-white rounded-lg shadow-md p-6 border-l-4 transition-all hover:shadow-lg ${timeGroupColors[tense.timeGroup]}`}
+                    >
+                      <div className="flex justify-between items-start mb-3">
+                        <h4 className="text-lg font-semibold text-gray-900">{tense.tense}</h4>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${timeGroupColors[tense.timeGroup]}`}
+                        >
+                          {tense.timeGroup}
+                        </span>
+                      </div>
+
+                      <div className="text-sm text-gray-600 space-y-6">
+                        <div className="border-b border-gray-200" />
+                        
+                        {/* Positive */}
+                        <div className="space-y-2">
+                          <div className="flex flex-row items-center gap-2">
+                            <strong className="text-sm">Formula (+):</strong>{" "}
+                            <span className="font-mono text-sm">{tense.formula.positive}</span>
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-sm text-green-600 mb-2">Positive:</h5>
+                            <div className="space-y-1 text-sm leading-relaxed italic rounded-lg bg-green-50 p-3">
+                              <div><strong>I:</strong> {tense.examples.positive.I}</div>
+                              <div><strong>You:</strong> {tense.examples.positive.you}</div>
+                              <div><strong>We:</strong> {tense.examples.positive.we}</div>
+                              <div><strong>They:</strong> {tense.examples.positive.they}</div>
+                              <div><strong>She:</strong> {tense.examples.positive.she}</div>
+                              <div><strong>He:</strong> {tense.examples.positive.he}</div>
+                              <div><strong>It:</strong> {tense.examples.positive.it}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Negative */}
+                        <div className="space-y-2">
+                          <div className="flex flex-row items-center gap-2">
+                            <strong className="text-sm">Formula (-):</strong>{" "}
+                            <span className="font-mono text-sm">{tense.formula.negative}</span>
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-sm text-red-600 mb-2">Negative:</h5>
+                            <div className="space-y-1 text-sm leading-relaxed italic rounded-lg bg-red-50 p-3">
+                              <div><strong>I:</strong> {tense.examples.negative.I}</div>
+                              <div><strong>You:</strong> {tense.examples.negative.you}</div>
+                              <div><strong>We:</strong> {tense.examples.negative.we}</div>
+                              <div><strong>They:</strong> {tense.examples.negative.they}</div>
+                              <div><strong>She:</strong> {tense.examples.negative.she}</div>
+                              <div><strong>He:</strong> {tense.examples.negative.he}</div>
+                              <div><strong>It:</strong> {tense.examples.negative.it}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Interrogative */}
+                        {tense.formula.interrogative && (
+                          <div className="space-y-2">
+                            <div className="flex flex-row items-center gap-2">
+                              <strong className="text-sm">Formula (?):</strong>{" "}
+                              <span className="font-mono text-sm">{tense.formula.interrogative}</span>
+                            </div>
+                            <div>
+                              <h5 className="font-semibold text-sm text-blue-600 mb-2">Interrogative:</h5>
+                              <div className="space-y-1 text-sm leading-relaxed italic rounded-lg bg-blue-50 p-3">
+                                <div><strong>I:</strong> {tense.examples.interrogative?.I}</div>
+                                <div><strong>You:</strong> {tense.examples.interrogative?.you}</div>
+                                <div><strong>We:</strong> {tense.examples.interrogative?.we}</div>
+                                <div><strong>They:</strong> {tense.examples.interrogative?.they}</div>
+                                <div><strong>She:</strong> {tense.examples.interrogative?.she}</div>
+                                <div><strong>He:</strong> {tense.examples.interrogative?.he}</div>
+                                <div><strong>It:</strong> {tense.examples.interrogative?.it}</div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded mt-8">
+                        <strong>Penggunaan:</strong> {tense.usage}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Tenses Summary Table */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Ringkasan Semua Tenses</h2>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="text-left p-4 font-semibold text-gray-900">Tense</th>
+                    <th className="text-left p-4 font-semibold text-gray-900">Formula</th>
+                    <th className="text-left p-4 font-semibold text-gray-900">Contoh</th>
+                    <th className="text-left p-4 font-semibold text-gray-900">Waktu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tenses.map((tense, index) => (
+                    <tr key={index} className="border-t hover:bg-gray-50">
+                      <td className="p-4 font-medium text-gray-900">{tense.tense}</td>
+                      <td className="p-4 text-gray-600 font-mono text-sm">
+                        <div className="mb-1">
+                          <span className="text-green-600">(+)</span> {tense.formula.positive}
+                        </div>
+                        <div className="mb-1">
+                          <span className="text-red-600">(-)</span> {tense.formula.negative}
+                        </div>
+                        {tense.formula.interrogative && (
+                          <div>
+                            <span className="text-blue-600">(?)</span> {tense.formula.interrogative}
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-4 text-gray-700 italic text-sm">
+                        <div className="mb-1">"{tense.examples.positive.I}"</div>
+                        <div className="mb-1">"{tense.examples.negative.I}"</div>
+                        {tense.examples.interrogative && (
+                          <div>"{tense.examples.interrogative.I}"</div>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        <span
+                          className={`px-2 py-1 rounded-full text-sm font-semibold ${timeGroupColors[tense.timeGroup]}`}
+                        >
+                          {tense.timeGroup}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Exercise Section */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Latihan Soal</h2>
+            <div className="text-sm text-gray-600">
+              Soal {currentExercise + 1} dari {exercises.length} | Skor: {score}/{exercises.length}
+            </div>
+          </div>
+
+          {currentExercise < exercises.length ? (
+            <div>
+              <div className="mb-6">
+                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                  {exercises[currentExercise].question}
+                </h3>
+
+                <div className="space-y-3">
+                  {exercises[currentExercise].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswerSelect(index)}
+                      disabled={showResult}
+                      className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
+                        selectedAnswer === index
+                          ? showResult
+                            ? index === exercises[currentExercise].correct
+                              ? "border-green-500 bg-green-50 text-green-800"
+                              : "border-red-500 bg-red-50 text-red-800"
+                            : "border-indigo-500 bg-indigo-50"
+                          : showResult && index === exercises[currentExercise].correct
+                            ? "border-green-500 bg-green-50 text-green-800"
+                            : "border-gray-300 hover:border-gray-400"
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {showResult && (
+                <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                  <h4 className="font-semibold text-blue-900 mb-2">Penjelasan:</h4>
+                  <p className="text-blue-800">{exercises[currentExercise].explanation}</p>
+                </div>
+              )}
+
+              <div className="flex justify-between">
+                {!showResult ? (
+                  <button
+                    onClick={handleSubmitAnswer}
+                    disabled={selectedAnswer === null}
+                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  >
+                    Submit Jawaban
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleNextQuestion}
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+                  >
+                    {currentExercise < exercises.length - 1 ? "Soal Berikutnya" : "Lihat Hasil"}
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Latihan Selesai!</h3>
+              <div className="text-6xl mb-4">
+                {score === exercises.length ? "🎉" : score >= exercises.length * 0.7 ? "👏" : "💪"}
+              </div>
+              <p className="text-xl text-gray-700 mb-6">
+                Skor Anda: {score} dari {exercises.length} (
+                {Math.round((score / exercises.length) * 100)}%)
+              </p>
+              <button
+                onClick={resetQuiz}
+                className="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700"
+              >
+                Ulangi Latihan
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </Layout>
+  )
+}

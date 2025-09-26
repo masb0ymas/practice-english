@@ -1,6 +1,6 @@
-import { TenseExample } from "./types"
+import { TenseRules } from "~/types/tenses"
 
-export const tenses: TenseExample[] = [
+export const tenses: TenseRules[] = [
   // PRESENT TENSES
   {
     tense: "Simple Present",

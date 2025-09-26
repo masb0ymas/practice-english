@@ -1,4 +1,4 @@
-export interface TenseExample {
+export interface TenseRules {
   tense: string
   formula: {
     positive: string
@@ -36,12 +36,4 @@ export interface TenseExample {
   }
   usage: string
   timeGroup: "Present" | "Past" | "Future"
-}
-
-export interface Exercise {
-  id: number
-  question: string
-  options: string[]
-  correct: number
-  explanation: string
 }

@@ -1,6 +1,6 @@
-import { SeomRule } from "./types"
+import { SeomRules } from "~/types/seom"
 
-export const seomRules: SeomRule[] = [
+export const seomRules: SeomRules[] = [
   {
     rule: "Singular Subject + Singular Verb",
     explanation:

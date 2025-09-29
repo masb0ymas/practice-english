@@ -4,6 +4,7 @@ export const tenses: TenseRules[] = [
   // PRESENT TENSES
   {
     tense: "Simple Present",
+    category: "present-1",
     formula: {
       positive: "S + V1 (s/es for 3rd person singular)",
       negative: "S + do/does + not + V1",
@@ -43,6 +44,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Present Continuous",
+    category: "present-1",
     formula: {
       positive: "S + am/is/are + V-ing",
       negative: "S + am/is/are + not + V-ing",
@@ -82,6 +84,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Present Perfect",
+    category: "present-2",
     formula: {
       positive: "S + have/has + V3",
       negative: "S + have/has + not + V3",
@@ -122,6 +125,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Present Perfect Continuous",
+    category: "present-2",
     formula: {
       positive: "S + have/has + been + V-ing",
       negative: "S + have/has + not + been + V-ing",
@@ -164,6 +168,7 @@ export const tenses: TenseRules[] = [
   // PAST TENSES
   {
     tense: "Simple Past",
+    category: "past-1",
     formula: {
       positive: "S + V2",
       negative: "S + did + not + V1",
@@ -203,6 +208,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Continuous",
+    category: "past-1",
     formula: {
       positive: "S + was/were + V-ing",
       negative: "S + was/were + not + V-ing",
@@ -242,6 +248,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Perfect",
+    category: "past-2",
     formula: {
       positive: "S + had + V3",
       negative: "S + had + not + V3",
@@ -281,6 +288,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Perfect Continuous",
+    category: "past-2",
     formula: {
       positive: "S + had + been + V-ing",
       negative: "S + had + not + been + V-ing",
@@ -323,6 +331,7 @@ export const tenses: TenseRules[] = [
   // FUTURE TENSES
   {
     tense: "Simple Future",
+    category: "future-1",
     formula: {
       positive: "S + will + V1",
       negative: "S + will + not + V1",
@@ -362,6 +371,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Future Continuous",
+    category: "future-1",
     formula: {
       positive: "S + will be + V-ing",
       negative: "S + will + not + be + V-ing",
@@ -401,6 +411,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Future Perfect",
+    category: "future-2",
     formula: {
       positive: "S + will have + V3",
       negative: "S + will + not + have + V3",
@@ -440,6 +451,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Future Perfect Continuous",
+    category: "future-2",
     formula: {
       positive: "S + will have been + V-ing",
       negative: "S + will + not + have been + V-ing",
@@ -482,6 +494,7 @@ export const tenses: TenseRules[] = [
   // PAST FUTURE TENSES
   {
     tense: "Simple Past Future",
+    category: "past-future-1",
     formula: {
       positive: "S + would + V1",
       negative: "S + would + not + V1",
@@ -521,6 +534,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Future Continuous",
+    category: "past-future-1",
     formula: {
       positive: "S + would be + V-ing",
       negative: "S + would + not + be + V-ing",
@@ -561,6 +575,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Future Perfect",
+    category: "past-future-2",
     formula: {
       positive: "S + would have + V3",
       negative: "S + would + not + have + V3",
@@ -601,6 +616,7 @@ export const tenses: TenseRules[] = [
   },
   {
     tense: "Past Future Perfect Continuous",
+    category: "past-future-2",
     formula: {
       positive: "S + would have been + V-ing",
       negative: "S + would + not + have been + V-ing",

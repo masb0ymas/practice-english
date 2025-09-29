@@ -1,5 +1,6 @@
 export interface TenseRules {
   tense: string
+  category: string
   formula: {
     positive: string
     negative: string

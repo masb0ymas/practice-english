@@ -1,4 +1,5 @@
 export interface ModalVerb {
+  similar: string
   modal: string
   meaning: string
   usage: string[]

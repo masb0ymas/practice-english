@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import CollapsibleCard from "~/components/common/collapsible-card"
 import { tenses } from "./tenses-rules"
 
 export const timeGroupColors = {
@@ -11,8 +12,23 @@ export const timeGroupColors = {
 
 export default function TensesList() {
   const [selectedTimeGroup, setSelectedTimeGroup] = useState<string | null>(null)
+  const [selectedCard, setSelectedCard] = useState<string | null>(null)
 
   const timeGroups = ["Present", "Past", "Future"]
+
+  const handleActiveColor = () => {
+    if (["present-1", "present-2"].includes(String(selectedCard))) {
+      return "green"
+    } else if (["past-1", "past-2"].includes(String(selectedCard))) {
+      return "blue"
+    } else if (["future-1", "future-2"].includes(String(selectedCard))) {
+      return "purple"
+    } else if (["past-future-1", "past-future-2"].includes(String(selectedCard))) {
+      return "blue"
+    } else {
+      return "neutral"
+    }
+  }
 
   return (
     <>
@@ -77,26 +93,19 @@ export default function TensesList() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredTenses.map((tense, index) => (
-                  <div
+                  <CollapsibleCard
                     key={index}
-                    className={`bg-white rounded-lg shadow-md p-6 border-l-4 transition-all hover:shadow-lg ${
-                      timeGroupColors[tense.timeGroup]
-                    }`}
+                    title={tense.tense}
+                    rule={tense.timeGroup}
+                    explanation={tense.usage}
+                    onClick={() =>
+                      setSelectedCard(selectedCard === tense.category ? null : tense.category)
+                    }
+                    activeColor={handleActiveColor()}
+                    badgeColor={handleActiveColor()}
+                    isExpanded={selectedCard === tense.category}
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-lg font-semibold text-gray-900">{tense.tense}</h4>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          timeGroupColors[tense.timeGroup]
-                        }`}
-                      >
-                        {tense.timeGroup}
-                      </span>
-                    </div>
-
                     <div className="text-sm text-gray-600 space-y-6">
-                      <div className="border-b border-gray-200" />
-
                       {/* Positive */}
                       <div className="space-y-2">
                         <div className="flex flex-row items-center gap-2">
@@ -203,11 +212,7 @@ export default function TensesList() {
                         </div>
                       )}
                     </div>
-
-                    <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded mt-8">
-                      <strong>Penggunaan:</strong> {tense.usage}
-                    </div>
-                  </div>
+                  </CollapsibleCard>
                 ))}
               </div>
             </div>

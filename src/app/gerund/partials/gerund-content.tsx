@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { gerundRules } from "./gerund-rules"
+import CollapsibleCard from "~/components/common/collapsible-card"
 
 export const categoryColors = {
   Subject: "bg-blue-100 text-blue-800 border-blue-500",
@@ -12,6 +13,31 @@ export const categoryColors = {
 
 export default function GerundContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedCard, setSelectedCard] = useState<number | null>(null)
+
+  const handleActiveColor = (index: number) => {
+    if (selectedCategory === "Subject") {
+      return selectedCard === index ? "blue" : "neutral"
+    } else if (selectedCategory === "Object") {
+      return selectedCard === index ? "green" : "neutral"
+    } else if (selectedCategory === "Preposition") {
+      return selectedCard === index ? "purple" : "neutral"
+    } else {
+      return selectedCard === index ? "orange" : "neutral"
+    }
+  }
+
+  const handleBadgeColor = () => {
+    if (selectedCategory === "Subject") {
+      return "blue"
+    } else if (selectedCategory === "Object") {
+      return "green"
+    } else if (selectedCategory === "Preposition") {
+      return "purple"
+    } else {
+      return "orange"
+    }
+  }
 
   return (
     <>
@@ -50,25 +76,16 @@ export default function GerundContent() {
           {gerundRules
             .filter((rule) => !selectedCategory || rule.category === selectedCategory)
             .map((rule, index) => (
-              <div
+              <CollapsibleCard
                 key={index}
-                className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${
-                  categoryColors[rule.category]
-                }`}
+                title={rule.title}
+                rule={rule.category}
+                explanation={rule.explanation}
+                onClick={() => setSelectedCard(selectedCard === index ? null : index)}
+                activeColor={handleActiveColor(index)}
+                badgeColor={handleBadgeColor()}
+                isExpanded={selectedCard === index}
               >
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-lg font-bold text-gray-900">{rule.title}</h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      categoryColors[rule.category]
-                    }`}
-                  >
-                    {rule.category}
-                  </span>
-                </div>
-
-                <p className="text-gray-600 mb-4">{rule.explanation}</p>
-
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Contoh:</h4>
@@ -106,7 +123,7 @@ export default function GerundContent() {
                     <p className="text-blue-800 text-sm">{rule.tips}</p>
                   </div>
                 </div>
-              </div>
+              </CollapsibleCard>
             ))}
         </div>
       </div>

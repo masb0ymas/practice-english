@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import CollapsibleCard from "~/components/common/collapsible-card"
 import { comparativeRules } from "./comparative-rules"
 
 export const typeColors = {
@@ -11,6 +12,27 @@ export const typeColors = {
 
 export default function ComparativeContent() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
+  const [selectedCard, setSelectedCard] = useState<number | null>(null)
+
+  const handleActiveColor = (index: number) => {
+    if (selectedType === "Positive") {
+      return selectedCard === index ? "green" : "neutral"
+    } else if (selectedType === "Comparative") {
+      return selectedCard === index ? "blue" : "neutral"
+    } else {
+      return selectedCard === index ? "purple" : "neutral"
+    }
+  }
+
+  const handleBadgeColor = () => {
+    if (selectedType === "Positive") {
+      return "green"
+    } else if (selectedType === "Comparative") {
+      return "blue"
+    } else {
+      return "purple"
+    }
+  }
 
   return (
     <>
@@ -49,23 +71,16 @@ export default function ComparativeContent() {
           {comparativeRules
             .filter((rule) => !selectedType || rule.type === selectedType)
             .map((rule, index) => (
-              <div
+              <CollapsibleCard
                 key={index}
-                className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${typeColors[rule.type]}`}
+                title={rule.title}
+                rule={rule.type}
+                explanation={rule.explanation}
+                onClick={() => setSelectedCard(selectedCard === index ? null : index)}
+                activeColor={handleActiveColor(index)}
+                badgeColor={handleBadgeColor()}
+                isExpanded={selectedCard === index}
               >
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-bold text-gray-900">{rule.title}</h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      typeColors[rule.type]
-                    }`}
-                  >
-                    {rule.type}
-                  </span>
-                </div>
-
-                <p className="text-gray-600 mb-4">{rule.explanation}</p>
-
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Aturan:</h4>
@@ -108,7 +123,7 @@ export default function ComparativeContent() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </CollapsibleCard>
             ))}
         </div>
       </div>

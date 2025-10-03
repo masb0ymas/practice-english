@@ -144,7 +144,7 @@ export default function Timer({
             variant="outline"
             appearance="ghost"
             size="icon"
-            className="bg-indigo-50 border-indigo-500 text-indigo-500"
+            className="hover:bg-indigo-50 transition-colors duration-300 hover:border-indigo-500 hover:text-indigo-500"
             onClick={handleReset}
           >
             <RotateCcw className="text-indigo-500" />

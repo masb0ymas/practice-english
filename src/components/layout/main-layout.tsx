@@ -15,7 +15,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
       <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 lg:py-15">
+      <main className="max-w-7xl min-h-[calc(100vh-9.5rem)] mx-auto py-8 px-4 sm:px-6 lg:px-8 lg:py-15">
         {title && (
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900 text-center">{title}</h1>

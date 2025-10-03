@@ -12,60 +12,66 @@ import {
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu"
 
-const components: { title: string; href: string; description: string }[] = [
+const menus = [
   {
-    title: "Alert Dialog",
-    href: "/docs/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+    title: "Home",
+    href: "/",
+    children: [],
   },
   {
-    title: "Hover Card",
-    href: "/docs/hover-card",
-    description: "For sighted users to preview content available behind a link.",
+    title: "Theory",
+    href: "#",
+    children: [
+      {
+        title: "Tenses",
+        href: "/tenses",
+      },
+      {
+        title: "Modals",
+        href: "/modals",
+      },
+      {
+        title: "SEOM",
+        href: "/seom",
+      },
+      {
+        title: "ADA",
+        href: "/ada",
+      },
+      {
+        title: "Comparative",
+        href: "/comparative",
+      },
+      {
+        title: "Gerund",
+        href: "/gerund",
+      },
+    ],
   },
   {
-    title: "Progress",
-    href: "/docs/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    title: "Practice",
+    href: "#",
+    children: [
+      {
+        title: "Question",
+        href: "/question",
+      },
+      {
+        title: "Statement",
+        href: "/statement",
+      },
+      {
+        title: "Role Play",
+        href: "/role-play",
+      },
+    ],
   },
   {
-    title: "Scroll-area",
-    href: "/docs/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "Exams",
+    href: "#",
+    children: [],
   },
 ]
-
-function ListItem({
-  title,
-  children,
-  href,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link href={href}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
-  )
-}
 
 export default function Navbar() {
   return (
@@ -84,64 +90,36 @@ export default function Navbar() {
 
           <NavigationMenu viewport={false}>
             <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link href="/">Home</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              {menus.map((item) => {
+                if (item.children.length > 0) {
+                  return (
+                    <NavigationMenuItem key={item.title}>
+                      <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-fit">
+                          {item.children.map((child) => {
+                            return (
+                              <li key={child.title}>
+                                <NavigationMenuLink asChild>
+                                  <Link href={child.href}>{child.title}</Link>
+                                </NavigationMenuLink>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  )
+                }
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Theory</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-fit gap-4">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link href="/tenses">Tenses</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="/modals">Modals</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="/seom">SEOM</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="/ada">ADA</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="/comparative">Comparative</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="/gerund">Gerund</Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Practice</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-fit gap-4">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link href="#">Question</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="#">Statement</Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="#">Role play</Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link href="#">Exams</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+                return (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link href={item.href}>{item.title}</Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                )
+              })}
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>

@@ -4,7 +4,7 @@ import { tenses } from "./tenses-rules"
 export default function TensesSummary() {
   return (
     <div className="mb-12">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Ringkasan Semua Tenses</h2>
+      <h2 className="text-2xl font-semibold text-gray-900 mb-6">Ringkasan Semua Tenses</h2>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

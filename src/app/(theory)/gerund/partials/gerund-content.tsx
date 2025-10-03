@@ -71,7 +71,7 @@ export default function GerundContent() {
 
       {/* Rules Reference */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Aturan Penggunaan Gerund</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Aturan Penggunaan Gerund</h2>
         <div className="space-y-6">
           {gerundRules
             .filter((rule) => !selectedCategory || rule.category === selectedCategory)

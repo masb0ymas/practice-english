@@ -63,7 +63,7 @@ export default function TensesList() {
 
       {/* Tense Reference Section */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
           {selectedTimeGroup ? `${selectedTimeGroup} Tenses` : "Referensi Semua Tenses"}
         </h2>
 
@@ -80,7 +80,7 @@ export default function TensesList() {
           return (
             <div key={timeGroup} className="mb-8">
               <h3
-                className={`text-xl font-bold mb-4 pb-2 border-b-2 ${
+                className={`text-xl font-semibold mb-4 pb-2 border-b-2 ${
                   timeGroup === "Present"
                     ? "text-green-600 border-green-200"
                     : timeGroup === "Past"

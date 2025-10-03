@@ -66,7 +66,7 @@ export default function ComparativeContent() {
 
       {/* Rules Reference */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Aturan Comparative Degree</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Aturan Comparative Degree</h2>
         <div className="space-y-6">
           {comparativeRules
             .filter((rule) => !selectedType || rule.type === selectedType)
@@ -130,7 +130,7 @@ export default function ComparativeContent() {
 
       {/* Common Adjectives Reference */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Daftar Adjective Umum</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Daftar Adjective Umum</h2>
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div>

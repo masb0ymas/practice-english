@@ -3,7 +3,7 @@ import React from "react"
 export default function GerundComparison() {
   return (
     <div className="mb-12">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Gerund vs Infinitive</h2>
+      <h2 className="text-2xl font-semibold text-gray-900 mb-6">Gerund vs Infinitive</h2>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>

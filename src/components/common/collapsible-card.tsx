@@ -127,7 +127,7 @@ export default function CollapsibleCard({
     >
       <div className="p-6 space-y-4" onClick={handleToggle}>
         <div className="flex justify-between items-start">
-          <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
           <div className="flex items-center gap-3">
             <div className={cn("px-3 py-1 rounded-full text-xs font-semibold", switchBadgeColor)}>
               {rule}

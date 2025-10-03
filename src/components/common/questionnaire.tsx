@@ -45,7 +45,7 @@ export default function Questionnaire({ title, exercises }: QuestionnaireProps) 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
         <div className="text-sm text-gray-600">
           Soal {currentExercise + 1} dari {exercises.length} | Skor: {score}/{exercises.length}
         </div>
